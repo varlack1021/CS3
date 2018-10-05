@@ -1,0 +1,91 @@
+import java.util.*;
+import java.io.*;
+import java.io.IOException;
+import java.util.Stack;
+// hi
+public class PostFixExpressions
+{
+      public static void main(String afeaf []) 
+   {
+
+    Stack<Double> postFix = new Stack<Double>();
+    double total = 0;
+    File file = new File ("in.data.txt");
+    String operator = "";
+   try(Scanner input = new Scanner(file)){
+    
+    
+     while(input.hasNext())
+     {
+     String inputData = input.nextLine();
+     String [] inputLine = inputData.split(" |/t");
+     for(int i = 0; i < inputLine.length; i++)
+     {
+     operator = inputLine[i];
+        
+     if(operator.equals("_"))
+        {
+        total = postFix.pop() * -1;
+        postFix.push(total);
+        }
+        else if (operator.equals("#"))
+        {
+        total = Math.sqrt(postFix.pop());
+        postFix.push(total);
+        }
+        else if (checkForOperator(operator))
+        
+        {
+        
+        total = calculate(operator, postFix.pop(), postFix.pop());
+       
+        postFix.push(total);
+       // System.out.println("Number to be pushed after calculations: " + total);
+        }
+        else
+        {
+        postFix.push(Double.parseDouble(operator));
+        //System.out.println("Number to be pushed");
+        }
+      }
+     System.out.println("The final anwer for " + inputData + " is: " + total);
+     }
+    
+    }catch(FileNotFoundException ex){
+    System.out.println("no file to be found dummmy");
+     }
+  
+   //System.out.println("The final answer is: " + total);
+   
+    
+}
+
+public static double calculate(String operator, double operand1, double operand2)
+{
+
+if (operator.equals("+"))
+    return (operand1 + operand2);
+    else if (operator.equals("-"))
+        return (operand2 - operand1);
+            else if (operator.equals("*"))
+                return (operand1 * operand2 );
+                    else if (operator.equals("/"))
+                        return (operand2 / operand1);
+                            else if (operator.equals("^"))
+                                return (Math.pow(operand2,operand1));
+                                    else
+                                        return 0;
+}
+
+public static boolean checkForOperator(String operator)
+     {
+        if(operator.equals("-") || 
+           operator.equals("+") ||
+           operator.equals("/") ||
+           operator.equals("*") ||
+           operator.equals("^")  )
+           return true;
+         else
+           return false;
+     }
+}
